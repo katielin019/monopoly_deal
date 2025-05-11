@@ -51,8 +51,8 @@ public class Deck {
     }
 
     private void initializeCards() {
-        String fp = "./cards/money.csv";
-        try (Scanner sc = new Scanner(new File(fp))) {
+        String fp = "./cards/";
+        try (Scanner sc = new Scanner(new File(fp + "money.csv"))) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 drawPile.add(new Card(Integer.parseInt(line)));
@@ -60,5 +60,20 @@ public class Deck {
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + e.getMessage());
         }
+
+        try (Scanner sc = new Scanner(new File(fp + "properties.csv"))) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] fields = line.split(", ");
+                drawPile.add(new PropertyCard(fields[0], PropertyType.get(fields[1]), Integer.parseInt(fields[2])));
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        Deck d = new Deck();
+        System.out.println(d.draw(10));
     }
 }

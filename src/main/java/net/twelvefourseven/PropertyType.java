@@ -1,27 +1,37 @@
 package net.twelvefourseven;
 
-public enum PropertyType {
-    BROWN ("Brown", new int[]{1, 2}),
-    DARK_BLUE ("Dark Blue", new int[]{3, 8}),
-    GREEN ("Green", new int[]{2, 4, 7}),
-    LIGHT_BLUE ("Light Blue", new int[]{1, 2, 3}),
-    ORANGE ("Orange", new int[]{1, 3, 5}),
-    PINK ("Pink", new int[]{1, 2, 4}),
-    RAILROAD ("Railroad", new int[]{1, 2, 3, 4}),
-    RED ("Red", new int[]{2, 3, 6}),
-    UTILITY ("Utility", new int[]{1, 2}),
-    YELLOW ("Yellow", new int[]{2, 4, 6});
+import java.util.HashMap;
+import java.util.Map;
 
-    private final String name;
+public enum PropertyType {
+    BROWN ("BR", new int[]{1, 2}),
+    DARK_BLUE ("DB", new int[]{3, 8}),
+    GREEN ("GR", new int[]{2, 4, 7}),
+    LIGHT_BLUE ("LB", new int[]{1, 2, 3}),
+    ORANGE ("OR", new int[]{1, 3, 5}),
+    PINK ("PI", new int[]{1, 2, 4}),
+    RAILROAD ("RR", new int[]{1, 2, 3, 4}),
+    RED ("RE", new int[]{2, 3, 6}),
+    UTILITY ("UT", new int[]{1, 2}),
+    YELLOW ("YE", new int[]{2, 4, 6});
+
+    private final String abbrev;
     private final int[] rentAmounts;
+    private static final Map<String, PropertyType> lookup = new HashMap<>();
+
+    static {
+        for (PropertyType t : PropertyType.values()) {
+            lookup.put(t.getAbbreviation(), t);
+        }
+    }
     
-    PropertyType(String name, int[] rentAmounts) {
-        this.name = name;
+    PropertyType(String abbrev, int[] rentAmounts) {
+        this.abbrev = abbrev;
         this.rentAmounts = rentAmounts;
     }
 
-    public String getName() {
-        return name;
+    public String getAbbreviation() {
+        return abbrev;
     }
 
     public int getRequiredPropertiesCount() {
@@ -33,5 +43,10 @@ public enum PropertyType {
             throw new IllegalArgumentException("Invalid number of properties owned for rent calculation.");
         }
         return rentAmounts[propertiesOwned - 1];
+    }
+
+    // https://stackoverflow.com/a/1080912
+    public static PropertyType get(String abbrev) {
+        return lookup.get(abbrev);
     }
 }
