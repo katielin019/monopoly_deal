@@ -11,7 +11,6 @@ public class PropertyCard extends Card {
     }
 
     public PropertyType getType() {
-        // return PropertyType.BROWN;
         return this.type;
     }
 

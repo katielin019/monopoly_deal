@@ -18,16 +18,16 @@ public enum PropertyType {
     private final String abbrev;
     private final int[] rentAmounts;
     private static final Map<String, PropertyType> lookup = new HashMap<>();
+    
+    PropertyType(String abbrev, int[] rentAmounts) {
+        this.abbrev = abbrev;
+        this.rentAmounts = rentAmounts;
+    }
 
     static {
         for (PropertyType t : PropertyType.values()) {
             lookup.put(t.getAbbreviation(), t);
         }
-    }
-    
-    PropertyType(String abbrev, int[] rentAmounts) {
-        this.abbrev = abbrev;
-        this.rentAmounts = rentAmounts;
     }
 
     public String getAbbreviation() {

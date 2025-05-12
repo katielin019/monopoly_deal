@@ -15,6 +15,7 @@ public class PlayerState {
 
     public void deposit(Card card) {
         bank.add(card);
+        System.out.println("SYSTEM UPDATE: " + card.getValue() + "M added to bank.");
     }
 
     public List<Card> getBank() {

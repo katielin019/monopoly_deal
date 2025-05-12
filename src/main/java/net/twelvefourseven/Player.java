@@ -1,17 +1,34 @@
 package net.twelvefourseven;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 public class Player {
     private final UUID id;
     private final String name;
+    private final List<Card> hand;
     private final PlayerState state;
 
     public Player(String name) {
-        id = UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.name = name;
-        state = new PlayerState();
+        this.hand = new ArrayList<>();
+        this.state = new PlayerState();
+    }
+
+    public void addToBank(int cardIndex) {
+        state.deposit(hand.get(cardIndex));
+        hand.remove(cardIndex);
+    }
+
+    public void drawCards(List<Card> cards) {
+        hand.addAll(cards);
+    }
+
+    public List<Card> getHand() {
+        return Collections.unmodifiableList(hand);
     }
 
     public UUID getId() {
@@ -26,7 +43,7 @@ public class Player {
         return this.state;
     }
 
-    public void drawCards(List<Card> cards) {
-
+    public boolean hasWinCondition() {
+        return this.state.getFullSetCount() >= 3;
     }
 }

@@ -24,7 +24,7 @@ public class Deck {
         Collections.shuffle(drawPile);
     }
 
-    public List<Card> draw(int count) {
+    public List<Card> deal(int count) {
         List<Card> drawn = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             if (drawPile.isEmpty()) {
@@ -50,6 +50,7 @@ public class Deck {
         shuffle();
     }
 
+    // TODO: add action cards, wild cards, and rent cards
     private void initializeCards() {
         String fp = "./cards/";
         try (Scanner sc = new Scanner(new File(fp + "money.csv"))) {
@@ -72,8 +73,8 @@ public class Deck {
         }
     }
 
-    public static void main(String[] args) {
-        Deck d = new Deck();
-        System.out.println(d.draw(10));
-    }
+    // public static void main(String[] args) {
+    //     Deck d = new Deck();
+    //     System.out.println(d.deal(10));
+    // }
 }
