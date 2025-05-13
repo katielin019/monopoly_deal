@@ -31,6 +31,10 @@ public class Player {
         return Collections.unmodifiableList(hand);
     }
 
+    public void removeFromHand(int cardIndex) {
+        hand.remove(cardIndex);
+    }
+
     public UUID getId() {
         return this.id;
     }

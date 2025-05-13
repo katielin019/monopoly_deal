@@ -1,5 +1,6 @@
 package net.twelvefourseven;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,13 +27,7 @@ public class GameController {
                 displayHand(p);
                 System.out.print("Choose a card to play by entering 'bank <card number>', or type 'skip': ");
 
-                // if (!sc.hasNextLine()) {
-                //     System.out.println("No input detected. Skipping the rest of the turn.");
-                //     break;
-                // }
-
                 String input = sc.nextLine().trim();
-                // System.out.println();
                 if (input.equalsIgnoreCase("skip")) break;
 
                 try {
@@ -51,12 +46,8 @@ public class GameController {
                         continue;
                     }
 
-                    // Card card = hand.get(cardIndex);
                     if (action.equalsIgnoreCase("bank")) {
                         p.addToBank(cardIndex);
-                        // PlayerState state = p.getState();
-                        // state.deposit(card);
-                        // hand.remove(card);
                     } else {
                         System.out.println("Unknown action: " + action);
                     }
@@ -64,20 +55,28 @@ public class GameController {
                     System.out.println("Please enter a valid number.");
                 }
             }
-
-            while (p.getHand().size() > MAX_CARDS_IN_HAND) {
-                System.out.println("You have more than 7 cards in your hand.");
-                System.out.println();
-                displayHand(p);
-                System.out.print("Select a card to move to the discard pile: ");
-                int cardIndex = Integer.parseInt(sc.nextLine());
-                if (cardIndex < 0 || cardIndex >= p.getHand().size()) {
-                    System.out.println("Invalid card index.");
-                    continue;
-                }
-            }
-
+            handlePlayerHandLimit(p);
             game.endTurn();
+        }
+    }
+
+    private boolean handlePlayerMove(Player p, int moveNumber) {
+        return false;
+    }
+
+    private void handlePlayerHandLimit(Player p) {
+        while (p.getHand().size() > MAX_CARDS_IN_HAND) {
+            System.out.println("You have more than 7 cards in your hand.");
+            System.out.println();
+            displayHand(p);
+            System.out.print("Select a card to move to the discard pile: ");
+            int cardIndex = Integer.parseInt(sc.nextLine()) - 1;
+            if (cardIndex < 0 || cardIndex >= p.getHand().size()) {
+                System.out.println("Invalid card index.");
+                continue;
+            } else {
+                p.removeFromHand(cardIndex);
+            }
         }
     }
 
@@ -94,5 +93,16 @@ public class GameController {
             if (p.hasWinCondition()) return true;
         }
         return false;
+    }
+
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>(2);
+        names.add("Pascal");
+        names.add("Jackie");
+        GameController gc = new GameController(names);
+        Player pascal = gc.game.getCurrentPlayer();
+        gc.game.startTurn();
+        gc.game.startTurn();
+        gc.handlePlayerHandLimit(pascal);
     }
 }
