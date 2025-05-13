@@ -20,39 +20,18 @@ public class GameController {
             System.out.println("It's " + p.getName() + "'s turn. You can make up to 3 moves.");
 
             game.startTurn();
-
-            for (int i = 1; i < MAX_MOVES + 1; i++) {
+            int moveCount = 0;
+            while (moveCount < MAX_MOVES) {
                 System.out.println();
-                System.out.println("MOVE #" + i);
+                System.out.println("MOVE #" + moveCount + 1);
                 displayHand(p);
-                System.out.print("Choose a card to play by entering 'bank <card number>', or type 'skip': ");
+                System.out.print("Choose a card to play by entering 'bank <card number>', or type 'skip' to end your turn: ");
 
                 String input = sc.nextLine().trim();
                 if (input.equalsIgnoreCase("skip")) break;
 
-                try {
-                    String[] fields = input.split(" ");
-                    if (fields.length != 2) {
-                        System.out.println("Invalid input format.");
-                        continue;
-                    }
-
-                    String action = fields[0];
-                    int cardIndex = Integer.parseInt(fields[1]) - 1;
-
-                    List<Card> hand = p.getHand();
-                    if (cardIndex < 0 || cardIndex >= hand.size()) {
-                        System.out.println("Invalid card index.");
-                        continue;
-                    }
-
-                    if (action.equalsIgnoreCase("bank")) {
-                        p.addToBank(cardIndex);
-                    } else {
-                        System.out.println("Unknown action: " + action);
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Please enter a valid number.");
+                if (handlePlayerMove(p, input)) {
+                    moveCount++;
                 }
             }
             handlePlayerHandLimit(p);
@@ -60,8 +39,35 @@ public class GameController {
         }
     }
 
-    private boolean handlePlayerMove(Player p, int moveNumber) {
-        return false;
+    private boolean handlePlayerMove(Player p, String input) {
+        try {
+            String[] fields = input.split(" ");
+            if (fields.length != 2) {
+                System.out.println("Invalid input format.");
+                return false;
+            }
+
+            String action = fields[0];
+            int cardIndex = Integer.parseInt(fields[1]) - 1;
+
+            List<Card> hand = p.getHand();
+            if (cardIndex < 0 || cardIndex >= hand.size()) {
+                System.out.println("Invalid card index.");
+                return false;
+            }
+
+            if (action.equalsIgnoreCase("bank")) {
+                p.addToBank(cardIndex);
+                return true;
+            } else {
+                System.out.println("Unknown action: " + action);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number.");
+            return false;
+        }
+        // TODO: HANDLE OTHER MOVE TYPES
     }
 
     private void handlePlayerHandLimit(Player p) {
