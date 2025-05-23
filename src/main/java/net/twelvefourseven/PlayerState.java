@@ -30,7 +30,7 @@ public class PlayerState {
         return getBankValue() >= amount;
     }
 
-    public void addProperty(PropertyCard card) {
+    public void own(PropertyCard card) {
         for (PropertySet set : this.properties) {
             if (set.getType() == card.getType() && !set.isComplete()) {
                 set.addProperty(card);

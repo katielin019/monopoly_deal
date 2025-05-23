@@ -23,6 +23,11 @@ public class Player {
         hand.remove(cardIndex);
     }
 
+    public void addProperty(int cardIndex) {
+        // WHO CHECKS THE TYPE VALIDITY? GAME CONTROLLER OR PLAYER?
+        // PropertyCard c = hand.get(cardIndex);
+    }
+
     public void drawCards(List<Card> cards) {
         hand.addAll(cards);
     }

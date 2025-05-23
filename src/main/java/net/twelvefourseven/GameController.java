@@ -56,6 +56,8 @@ public class GameController {
                 return false;
             }
 
+            // NOTE TO SELF: I'd like to handle this logic more elegantly, 
+            // but for now I'm just focusing on a minimal yet functional implementation
             if (action.equalsIgnoreCase("bank")) {
                 p.addToBank(cardIndex);
                 return true;
