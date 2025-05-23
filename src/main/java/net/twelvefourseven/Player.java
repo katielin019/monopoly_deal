@@ -19,8 +19,7 @@ public class Player {
     }
 
     public void addToBank(int cardIndex) {
-        state.deposit(hand.get(cardIndex));
-        hand.remove(cardIndex);
+        state.deposit(hand.remove(cardIndex));
     }
 
     public void addProperty(int cardIndex) {
