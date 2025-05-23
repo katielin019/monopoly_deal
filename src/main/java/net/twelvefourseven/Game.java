@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+    private final static int INITIAL_HAND_SIZE = 5;
+    private final static int DRAW_SIZE = 2;
     private final List<Player> players;
     private final Deck deck;
     private int currPlayerIndex;
@@ -21,7 +23,7 @@ public class Game {
 
     private void startGame() {
         for (Player p : players) {
-            p.drawCards(deck.deal(5));
+            p.drawCards(deck.deal(INITIAL_HAND_SIZE));
         }
     }
 
@@ -37,10 +39,10 @@ public class Game {
         Player curr = players.get(currPlayerIndex);
         if (curr.getHand().isEmpty()) {
             System.out.println("Since you're out of cards, 5 new ones have been drawn into your hand to start your turn.");
-            curr.drawCards(deck.deal(5));
+            curr.drawCards(deck.deal(INITIAL_HAND_SIZE));
         } else {
             System.out.println("To start your turn, 2 cards have been drawn into your hand.");
-            curr.drawCards(deck.deal(2));
+            curr.drawCards(deck.deal(DRAW_SIZE));
         }
     }
 
