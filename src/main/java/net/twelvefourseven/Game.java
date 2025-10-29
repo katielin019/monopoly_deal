@@ -46,7 +46,14 @@ public class Game {
         }
     }
 
+    public void passGo() {
+        Player curr = players.get(currPlayerIndex);
+        curr.drawCards(deck.deal(DRAW_SIZE));
+    }
+
     public void endTurn() {
         this.currPlayerIndex = (this.currPlayerIndex + 1) % this.players.size();
     }
+
+    // TODO: add "end game" method
 }
